@@ -44,7 +44,7 @@ const createCart = async function (req, res) {
         if (!validation.isValidObjectId(productID)) return res.send({ msg: "Not a valid productId" })
 
 
-        if (req.body.quantity) return res.status(400).send({ status: false, msg: "Dont give qnt" })
+        // if (req.body.quantity) return res.status(400).send({ status: false, msg: "Dont give qnt" })
 
 
         let cartExist = await cartModel.findOne({ _id: cartId });
@@ -113,7 +113,8 @@ const createCart = async function (req, res) {
                     return res.status(200).send({ status: true, message: "Updated Cart", data: updatedCart })
                 }
             }
-        } else {
+        } 
+        else {
             let newData = {}
             let arr = []
             newData.userId = userID;
@@ -269,13 +270,13 @@ const updateCart = async function (req, res) {
                         let updateCartDetails = await cartModel.findOneAndUpdate({ _id: cartId }, { items: cartDetails.items, totalPrice: newPrice }, { new: true })
                         return res.status(200).send({ status: true, msg: "cart updated successfully", data: updateCartDetails })
                     }
-                    else {
-                        totalItem = cartDetails.totalItems - 1
-                        cartDetails.items.splice(i, 1)
+                    // else {
+                    //     totalItem = cartDetails.totalItems - 1
+                    //     cartDetails.items.splice(i, 1)
 
-                        let updatedDetails = await cartModel.findOneAndUpdate({ _id: cartId }, { items: cartDetails.items, totalPrice: newPrice, totalItems: totalItem }, { new: true })
-                        return res.status(200).send({ status: true, msg: "Product removed successfully", data: updatedDetails })
-                    }
+                    //     let updatedDetails = await cartModel.findOneAndUpdate({ _id: cartId }, { items: ////cartDetails.items, totalPrice: newPrice, totalItems: totalItem }, { new: true })
+                    //     return res.status(200).send({ status: true, msg: "Product removed successfully", data: updatedDetails })
+                    // }
                 }
 
             }

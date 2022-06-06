@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken")
 
 const authorization = async function (req, res, next) {
   try {
-    const token = req.header('Authorization') //setting token in the request header.
+    const token = req.header['Authorization'] //setting token in the request header.
 
     if (!token) {
       return res.status(403).send({ status: false, message: `Missing authentication token in request` })
@@ -26,6 +26,8 @@ const authorization = async function (req, res, next) {
     next()
 
   } catch (error) {
+    if(error.message=="invalid signature") return res.status(403).send({status:false,message:"Invalid signature"})
+    if(error.message=="jwt expired") return res.status(400).send({status:false,message:"Token Got expired"})
     return res.status(500).send({ status: false, message: error.message })
   }
 }
